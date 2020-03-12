@@ -1,0 +1,30 @@
+syntax="proto3";
+package qvspot;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "qvspot/qvspot.proto";
+
+option go_package = "github.com/snowzach/qvspot/qvspot";
+
+service ProductRPC {
+
+    rpc ProductInsert(qvspot.Product) returns (qvspot.Product) {
+        option (google.api.http) = {
+            post: "/product"
+            body: "*"
+        };
+    }
+
+    rpc ProductDelete(ProductId) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/product/{id}"
+        };
+    }
+
+}
+
+message ProductId {
+    string id = 1;
+}

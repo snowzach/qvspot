@@ -1,0 +1,47 @@
+syntax="proto3";
+package qvspot;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option go_package = "github.com/snowzach/qvspot/qvspot";
+
+message Vendor {
+    string id = 1;
+    string name = 2;
+}
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string desc = 3;
+    string pic_url = 4;
+
+    string vendor_id = 12;
+    
+    map<string, string> meta_string = 13 [(gogoproto.jsontag) = "meta_string"]; // Remove omitempty
+    map<string, double> meta_num = 14 [(gogoproto.jsontag) = "meta_num"]; // Remove omitempty
+    map<string, StringList> meta_list = 15 [(gogoproto.jsontag) = "meta_list"]; // Remove omitempty
+}
+
+message VendorLoc {
+    string id = 1;
+    string vendor_id = 2;
+    string name = 3;
+    double lat = 4;
+    double long = 5;
+}
+
+message VendorLocProduct {
+    string product_id = 1;
+    string vendor_loc_id = 2;
+    sint64 stock = 3;
+    double price = 4;
+
+    bool atomic = 13;
+    string start = 14;
+    string end = 15;
+}
+
+message StringList {
+    repeated string list = 1;
+}

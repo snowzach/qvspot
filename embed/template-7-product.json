@@ -1,0 +1,83 @@
+{
+    "settings": {
+        "index": {
+            "number_of_replicas": 0,
+            "number_of_shards": 3,
+            "refresh_interval": "15s",
+            "mapping.ignore_malformed": true
+        }
+    },
+    "mappings": {
+        "dynamic_templates": [
+            {
+                "meta_string": {
+                    "path_match": "meta_string.*",
+                    "mapping": {
+                        "norms": false,
+                        "doc_values": true,
+                        "fielddata": false,
+                        "type": "keyword"
+                    }
+                }
+            },
+            {
+                "meta_num": {
+                    "path_match": "meta_num.*",
+                    "mapping": {
+                        "norms": false,
+                        "doc_values": true,
+                        "fielddata": false,
+                        "type": "double"
+                    }
+                }
+            },
+            {
+                "meta_list": {
+                    "path_match": "meta_list.*",
+                    "mapping": {
+                        "norms": false,
+                        "doc_values": true,
+                        "fielddata": false,
+                        "type": "keyword"
+                    }
+                }
+            },
+            {
+                "star_as_keyword": {
+                    "match_mapping_type": "*",
+                    "mapping": {
+                        "type": "keyword",
+                        "norms": false
+                    }
+                }
+            }
+        ],
+        "properties": {
+            "id": {
+                "type": "keyword"
+            },
+            "name": {
+                "type": "text"
+            },
+            "desc": {
+                "type": "text"
+            },
+            "pic_url": {
+                "type": "keyword",
+                "index": false
+            },
+            "vendor_id": {
+                "type": "keyword"
+            },
+            "meta_string": {
+                "type": "object"
+            },
+            "meta_num": {
+                "type": "object"
+            },
+            "meta_list": {
+                "type": "object"
+            }
+        }
+    }
+}
