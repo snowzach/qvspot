@@ -10,8 +10,8 @@
     "mappings": {
         "dynamic_templates": [
             {
-                "meta_string": {
-                    "path_match": "meta_string.*",
+                "attr": {
+                    "path_match": "attr.*",
                     "mapping": {
                         "norms": false,
                         "doc_values": true,
@@ -21,8 +21,8 @@
                 }
             },
             {
-                "meta_num": {
-                    "path_match": "meta_num.*",
+                "attr_num": {
+                    "path_match": "attr_num.*",
                     "mapping": {
                         "norms": false,
                         "doc_values": true,
@@ -32,8 +32,8 @@
                 }
             },
             {
-                "meta_list": {
-                    "path_match": "meta_list.*",
+                "attr_list": {
+                    "path_match": "attr_list.*",
                     "mapping": {
                         "norms": false,
                         "doc_values": true,
@@ -93,13 +93,13 @@
             "end": {
                 "type": "keyword"
             },
-            "meta_string": {
+            "attr": {
                 "type": "object"
             },
-            "meta_num": {
+            "attr_num": {
                 "type": "object"
             },
-            "meta_list": {
+            "attr_list": {
                 "type": "object"
             }
         }

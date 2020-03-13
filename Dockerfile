@@ -20,6 +20,6 @@ RUN apk add --no-cache ca-certificates su-exec && \
 RUN addgroup -S qvspot && adduser -S qvspot -G qvspot
 RUN mkdir -p /opt/qvspot
 WORKDIR /opt/qvspot
-EXPOSE 8990
+EXPOSE 8080
 COPY --from=build /build/api .
 CMD [ "su-exec", "qvspot:qvspot", "/opt/qvspot/api", "api" ]

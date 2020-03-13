@@ -1,17 +1,27 @@
 syntax="proto3";
 package qvspot;
 
+import "google/api/annotations.proto";
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "protoc-gen-swagger/options/annotations.proto";
 
 option go_package = "github.com/snowzach/qvspot/qvspot";
 
 message Vendor {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{"id": "vendor123", "name": "vendor123"}' }
+    };
+
     string id = 1;
     string name = 2;
 }
 
 // Product
 message Product {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{"id": "test123", "name": "test123", "desc": "test123 description", "attr": { "mystring1": "meta1" }, "attr_num": { "mynum1": 123.456 }, "attr_list": { "mylist1": ["a","b","c"] } }' }
+    };
+
     // id field
     string id = 1;
     // name
@@ -25,11 +35,11 @@ message Product {
     string vendor_id = 12;
     
     // string metadata
-    map<string, string> meta_string = 13 [(gogoproto.jsontag) = "meta_string"]; // Remove omitempty
+    map<string, string> attr = 13 [(gogoproto.jsontag) = "attr"]; // Remove omitempty
     // numeric metadata
-    map<string, double> meta_num = 14 [(gogoproto.jsontag) = "meta_num"]; // Remove omitempty
+    map<string, double> attr_num = 14 [(gogoproto.jsontag) = "attr_num"]; // Remove omitempty
     // string list metadata
-    map<string, StringList> meta_list = 15 [(gogoproto.jsontag) = "meta_list"]; // Remove omitempty
+    map<string, StringList> attr_list = 15 [(gogoproto.jsontag) = "attr_list"]; // Remove omitempty
 }
 
 // Vendor Location

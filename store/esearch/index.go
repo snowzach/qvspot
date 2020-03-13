@@ -10,13 +10,11 @@ import (
 // Init will initializes the elastic index
 func (e *esearch) Init() error {
 
-	e.logger.Info("INIT")
 	err := e.EnsureIndex(IndexAll, IndexVendor)
 	if err != nil {
 		return err
 	}
 
-	e.logger.Info("CHECK")
 	err = e.CheckIndex(IndexAll, IndexVendor)
 	if err != nil {
 		return err

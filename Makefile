@@ -10,7 +10,7 @@ TOOLS := ${GOPATH}/bin/go-bindata \
         ${GOPATH}/bin/protoc-gen-gogoslick \
         ${GOPATH}/bin/protoc-gen-grpc-gateway \
         ${GOPATH}/bin/protoc-gen-swagger
-export PROTOBUF_INCLUDES = -I. -I/usr/include -I${GOPATH}/src -I$(shell go list -e -f '{{.Dir}}' .) -I$(shell go list -e -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway/runtime)/../third_party/googleapis
+export PROTOBUF_INCLUDES = -I. -I/usr/include -I${GOPATH}/src -I$(shell go list -e -f '{{.Dir}}' .) -I$(shell go list -e -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway/runtime)/../ -I$(shell go list -e -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway/runtime)/../third_party/googleapis
 PROTOS := ./qvspot/qvspot.pb.go \
 	./qvspot/manager.pb.gw.go \
 	./server/versionrpc/version.pb.gw.go
@@ -50,7 +50,7 @@ ${GOPATH}/bin/protoc-gen-swagger:
 %.pb.go: %.proto
 	protoc ${PROTOBUF_INCLUDES} --gogoslick_out=paths=source_relative,plugins=grpc:. $*.proto
 
-${EMBEDDIR}/bindata.go: ${EMBED} ${SWAGGERDOCS} embed/public/swagger-ui/index.html
+${EMBEDDIR}/bindata.go: ${EMBED} ${SWAGGERDOCS} embed/public/api-docs/index.html embed/public/swagger-ui/index.html
 	# Copying swagger docs
 	mkdir -p embed/public/api-docs
 	cp $(SWAGGERDOCS) embed/public/api-docs
