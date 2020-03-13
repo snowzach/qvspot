@@ -1,0 +1,17 @@
+version: '3.2'
+services:
+  qvspot:
+    container_name: qvspot
+    build: ..
+    restart: unless-stopped
+    networks:
+      - hostnet
+    environment:
+      ELASTICSEARCH_HOST: elasticsearch
+    ports:
+      - 8990:8900
+
+networks:
+  hostnet:
+    external:
+      name: hostnet

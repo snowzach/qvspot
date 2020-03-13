@@ -10,38 +10,66 @@ message Vendor {
     string name = 2;
 }
 
+// Product
 message Product {
+    // id field
     string id = 1;
+    // name
     string name = 2;
+    // description
     string desc = 3;
+    // picture url
     string pic_url = 4;
 
+    // owning vendor_id
     string vendor_id = 12;
     
+    // string metadata
     map<string, string> meta_string = 13 [(gogoproto.jsontag) = "meta_string"]; // Remove omitempty
+    // numeric metadata
     map<string, double> meta_num = 14 [(gogoproto.jsontag) = "meta_num"]; // Remove omitempty
+    // string list metadata
     map<string, StringList> meta_list = 15 [(gogoproto.jsontag) = "meta_list"]; // Remove omitempty
 }
 
+// Vendor Location
 message VendorLoc {
+    // id field
     string id = 1;
+    // owning vendor_id
     string vendor_id = 2;
+    // location name
     string name = 3;
-    double lat = 4;
-    double long = 5;
 }
 
+// Vendor Location Product
 message VendorLocProduct {
+    // product id
     string product_id = 1;
+    // vendor location id
     string vendor_loc_id = 2;
+    // stock
     sint64 stock = 3;
+    // price
     double price = 4;
-
-    bool atomic = 13;
+    // location
+    Location location = 5;
+    // unit - there is only one
+    bool unit = 13;
+    // start/end for atomic
     string start = 14;
     string end = 15;
 }
 
+// location
+message Location {
+    // location latitude
+    double lat = 4;
+    // location longitude
+    double long = 5;
+}
+
+// string list
 message StringList {
     repeated string list = 1;
 }

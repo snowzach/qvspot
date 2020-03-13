@@ -24,7 +24,7 @@ func init() {
 
 	// Server Configuration
 	config.SetDefault("server.host", "")
-	config.SetDefault("server.port", "8900")
+	config.SetDefault("server.port", "8080")
 	config.SetDefault("server.tls", false)
 	config.SetDefault("server.devcert", false)
 	config.SetDefault("server.certfile", "server.crt")
@@ -70,8 +70,8 @@ func init() {
 	config.SetDefault("elasticsearch.refresh_interval", "15s")
 	config.SetDefault("elasticsearch.request_timeout", "12m")
 	config.SetDefault("elasticsearch.throttle_searches", 60)
-	config.SetDefault("elasticsearch.bulk_workers", 5)
-	config.SetDefault("elasticsearch.bulk_flush_interval", "5s")
+	config.SetDefault("elasticsearch.bulk_workers", 2)
+	config.SetDefault("elasticsearch.bulk_flush_interval", "100ms")
 	config.SetDefault("elasticsearch.bulk_stats", false)
 	config.SetDefault("elasticsearch.bulk_stats_interval", "60s")
 	config.SetDefault("elasticsearch.wipe_confirm", false)

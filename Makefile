@@ -3,19 +3,19 @@ GITVERSION := $(shell git describe --dirty --always --tags --long)
 GOPATH ?= ${HOME}/go
 PACKAGENAME := $(shell go list -m -f '{{.Path}}')
 EMBEDDIR := embed
-EMBED := embed/template-7-product.json
+EMBED := embed/template-7-all.json
 TOOLS := ${GOPATH}/bin/go-bindata \
-	${GOPATH}/bin/mockery \
-	${GOPATH}/src/github.com/golang/protobuf/proto \
-	${GOPATH}/bin/protoc-gen-go \
-	${GOPATH}/bin/protoc-gen-grpc-gateway \
-	${GOPATH}/bin/protoc-gen-swagger
+        ${GOPATH}/bin/mockery \
+        ${GOPATH}/src/github.com/gogo/protobuf/proto \
+        ${GOPATH}/bin/protoc-gen-gogoslick \
+        ${GOPATH}/bin/protoc-gen-grpc-gateway \
+        ${GOPATH}/bin/protoc-gen-swagger
 export PROTOBUF_INCLUDES = -I. -I/usr/include -I${GOPATH}/src -I$(shell go list -e -f '{{.Dir}}' .) -I$(shell go list -e -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway/runtime)/../third_party/googleapis
 PROTOS := ./qvspot/qvspot.pb.go \
-	./qvspot/product.pb.gw.go \
+	./qvspot/manager.pb.gw.go \
 	./server/versionrpc/version.pb.gw.go
 SWAGGERDOCS = 	./server/versionrpc/version.swagger.json \
-				./qvspot/product.swagger.json
+				./qvspot/manager.swagger.json
 SWAGGER_VERSION = 3.20.8
 
 .PHONY: default
@@ -74,3 +74,8 @@ test: tools ${PROTOS} ${MIGRATIONDIR}/bindata.go mocks
 deps:
 	# Fetching dependancies...
 	go get -d -v # Adding -u here will break CI
+
+embed/public/swagger-ui/index.html:
+	# Downloading Swagger UI
+	mkdir -p embed/public/swagger-ui
+	curl -L https://github.com/swagger-api/swagger-ui/archive/v${SWAGGER_VERSION}.tar.gz | tar zx --strip-components 2 -C embed/public/swagger-ui swagger-ui-${SWAGGER_VERSION}/dist

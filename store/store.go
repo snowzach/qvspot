@@ -4,5 +4,5 @@ import (
 	"errors"
 )
 
-// ErrNotFound is a standard no found error
-var ErrNotFound = errors.New("Not Found")
+// ErrNotFound is a standard not found error
+var ErrNotFound = errors.New("not found")

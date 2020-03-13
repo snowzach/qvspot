@@ -7,20 +7,17 @@ import (
 	"github.com/spf13/cast"
 )
 
-// Constants used for elastic
-const (
-	IndexTypeProduct = "product"
-)
-
 // Init will initializes the elastic index
 func (e *esearch) Init() error {
 
-	err := e.EnsureIndex(IndexTypeProduct)
+	e.logger.Info("INIT")
+	err := e.EnsureIndex(IndexAll, IndexVendor)
 	if err != nil {
 		return err
 	}
 
-	err = e.CheckIndex(IndexTypeProduct)
+	e.logger.Info("CHECK")
+	err = e.CheckIndex(IndexAll, IndexVendor)
 	if err != nil {
 		return err
 	}

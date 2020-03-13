@@ -6,7 +6,7 @@ import (
 
 	"github.com/snowzach/qvspot/conf"
 	"github.com/snowzach/qvspot/qvspot"
-	"github.com/snowzach/qvspot/qvspot/product_server"
+	"github.com/snowzach/qvspot/qvspot/manager"
 	"github.com/snowzach/qvspot/server"
 	"github.com/snowzach/qvspot/store/esearch"
 )
@@ -35,6 +35,10 @@ var (
 			if err != nil {
 				logger.Fatalw("Elasticsearch Error", "error", err)
 			}
+			err = es.Init()
+			if err != nil {
+				logger.Fatalw("Elasticsearch Init Error", "error", err)
+			}
 
 			// Create the GRPC/HTTP server
 			s, err := server.New()
@@ -45,7 +49,7 @@ var (
 			}
 
 			// Create the rpcserver
-			productServer, err := product_server.New(es)
+			manager, err := manager.New(es)
 			if err != nil {
 				logger.Fatalw("Could not create thing rpcserver",
 					"error", err,
@@ -53,8 +57,8 @@ var (
 			}
 
 			// Register the Thing RPC server to the GRPC Server
-			qvspot.RegisterProductRPCServer(s.GRPCServer(), productServer)
-			s.GwReg(qvspot.RegisterProductRPCHandlerFromEndpoint)
+			qvspot.RegisterManagerRPCServer(s.GRPCServer(), manager)
+			s.GwReg(qvspot.RegisterManagerRPCHandlerFromEndpoint)
 
 			err = s.ListenAndServe()
 			if err != nil {

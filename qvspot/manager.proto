@@ -1,0 +1,66 @@
+syntax="proto3";
+package qvspot;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "qvspot/qvspot.proto";
+
+option go_package = "github.com/snowzach/qvspot/qvspot";
+
+service ManagerRPC {
+
+    // Create/Replace a vendor
+    rpc VendorInsert(qvspot.Vendor) returns (qvspot.Vendor) {
+        option (google.api.http) = {
+            post: "/vendor"
+            body: "*"
+        };
+    }
+
+    // Fetch a vendor by id
+    rpc VendorGetById(Request) returns (qvspot.Vendor) {
+        option (google.api.http) = {
+            get: "/vendor/{id}"
+        };
+    }
+
+    // Delete a vendor by id
+    rpc VendorDeleteById(Request) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/vendor/{id}"
+        };
+    }
+
+
+    // Create/Replace a product
+    rpc ProductInsert(qvspot.Product) returns (qvspot.Product) {
+        option (google.api.http) = {
+            post: "/product"
+            body: "*"
+        };
+    }
+
+    // Fetch a product by id
+    rpc ProductGetById(Request) returns (qvspot.Product) {
+        option (google.api.http) = {
+            get: "/product/{id}"
+        };
+    }
+
+    // Delete a product by id
+    rpc ProductDeleteById(Request) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/product/{id}"
+        };
+    }
+
+
+
+}
+
+// A generic request
+message Request {
+    // The id of the product
+    string id = 1;
+}

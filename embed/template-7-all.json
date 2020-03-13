@@ -53,6 +53,9 @@
             }
         ],
         "properties": {
+            "type": {
+                "type": "keyword"
+            },
             "id": {
                 "type": "keyword"
             },
@@ -67,6 +70,27 @@
                 "index": false
             },
             "vendor_id": {
+                "type": "keyword"
+            },
+            "vendor_loc_id": {
+                "type": "keyword"
+            },
+            "location": {
+                "type": "geo_point"
+            },
+            "stock": {
+                "type": "double"
+            },
+            "price": {
+                "type": "double"
+            },
+            "unit": {
+                "type": "boolean"
+            },
+            "start": {
+                "type": "keyword"
+            },
+            "end": {
                 "type": "keyword"
             },
             "meta_string": {

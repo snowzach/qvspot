@@ -10,21 +10,21 @@ import (
 	"github.com/snowzach/qvspot/store"
 )
 
-const TypeProduct = "product"
+const TypeVendor = "vendor"
 
 // Includes the type field
-type ESProduct struct {
-	*qvspot.Product
+type ESVendor struct {
+	*qvspot.Vendor
 	Type string `json:"type"`
 }
 
-// ProductInsert inserts/replaces a product
-func (e *esearch) ProductInsert(product *qvspot.Product) error {
+// VendorInsert inserts/replaces a vendor
+func (e *esearch) VendorInsert(vendor *qvspot.Vendor) error {
 
 	request := elastic.NewBulkIndexRequest().
 		Index(e.indexName(IndexAll, IndexVendor)).
-		Id(IdPrefixProduct + product.Id).
-		Doc(&ESProduct{Product: product, Type: TypeProduct})
+		Id(IdPrefixVendor + vendor.Id).
+		Doc(&ESVendor{Vendor: vendor, Type: TypeVendor})
 
 	request.Source() // Convert to json so we can modify b
 	e.bulk.Add(request)
@@ -33,32 +33,32 @@ func (e *esearch) ProductInsert(product *qvspot.Product) error {
 
 }
 
-// ProductGetById returns a product by id
-func (e *esearch) ProductGetById(productId string) (*qvspot.Product, error) {
+// VendorGetById returns a vendor by id
+func (e *esearch) VendorGetById(vendorId string) (*qvspot.Vendor, error) {
 
 	res, err := e.client.Get().
 		Index(e.indexName(IndexAll, IndexVendor)).
-		Id(IdPrefixProduct + productId).
+		Id(IdPrefixVendor + vendorId).
 		Do(e.ctx)
 	if elastic.IsNotFound(err) {
 		return nil, store.ErrNotFound
 	} else if err != nil {
-		return nil, fmt.Errorf("Could not get product: %v", err)
+		return nil, fmt.Errorf("Could not get vendor: %v", err)
 	}
 
 	// Unmarshal the block
-	product := new(qvspot.Product)
-	err = json.Unmarshal(res.Source, product)
-	return product, err
+	vendor := new(qvspot.Vendor)
+	err = json.Unmarshal(res.Source, vendor)
+	return vendor, err
 
 }
 
-// ProductDeleteById removes a product by id
-func (e *esearch) ProductDeleteById(productId string) error {
+// VendorDeleteById removes a vendor by id
+func (e *esearch) VendorDeleteById(vendorId string) error {
 
 	_, err := e.client.Delete().
 		Index(e.indexName(IndexAll, IndexVendor)).
-		Id(IdPrefixProduct + productId).
+		Id(IdPrefixVendor + vendorId).
 		Refresh("true").
 		Do(e.ctx)
 	return err

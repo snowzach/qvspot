@@ -22,6 +22,14 @@ import (
 
 var versionRegexp = regexp.MustCompile(`^7\..*`)
 
+const (
+	IdPrefixVendor  = "vendor:"
+	IdPrefixProduct = "product:"
+
+	IndexAll    = "all"
+	IndexVendor = "vendor"
+)
+
 type esearch struct {
 	logger *zap.SugaredLogger
 
@@ -151,7 +159,7 @@ func New() (*esearch, error) {
 	}
 
 	// Setup the templates
-	for _, t := range []string{IndexTypeProduct} {
+	for _, t := range []string{IndexAll} {
 		err = e.ApplyIndexTemplate(t)
 		if err != nil {
 			return nil, fmt.Errorf("Could not ApplyIndexTemplate %s: %v", t, err)
