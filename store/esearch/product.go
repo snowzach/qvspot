@@ -10,7 +10,10 @@ import (
 	"github.com/snowzach/qvspot/store"
 )
 
-const TypeProduct = "product"
+const (
+	IdPrefixProduct = "product:"
+	TypeProduct     = "product"
+)
 
 // Includes the type field
 type ESProduct struct {

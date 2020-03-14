@@ -32,6 +32,27 @@ service ManagerRPC {
         };
     }
 
+    // Create/Replace a vendor location
+    rpc VendorLocationInsert(qvspot.VendorLocation) returns (qvspot.VendorLocation) {
+        option (google.api.http) = {
+            post: "/vendor/location"
+            body: "*"
+        };
+    }
+
+    // Fetch a vendor location by id
+    rpc VendorLocationGetById(Request) returns (qvspot.VendorLocation) {
+        option (google.api.http) = {
+            get: "/vendor/location/{id}"
+        };
+    }
+
+    // Delete a vendor location by id
+    rpc VendorLocationDeleteById(Request) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/vendor/location/{id}"
+        };
+    }
 
     // Create/Replace a product
     rpc ProductInsert(qvspot.Product) returns (qvspot.Product) {
@@ -55,7 +76,27 @@ service ManagerRPC {
         };
     }
 
+    // Create/Replace a vendor location
+    rpc ProductLocationInsert(qvspot.ProductLocation) returns (qvspot.ProductLocation) {
+        option (google.api.http) = {
+            post: "/product/location"
+            body: "*"
+        };
+    }
 
+    // Fetch a prodcut location by id
+    rpc ProductLocationGetById(Request) returns (qvspot.ProductLocation) {
+        option (google.api.http) = {
+            get: "/product/location/{id}"
+        };
+    }
+
+    // Delete a vendor location by id
+    rpc ProductLocationDeleteById(Request) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/product/location/{id}"
+        };
+    }
 
 }
 

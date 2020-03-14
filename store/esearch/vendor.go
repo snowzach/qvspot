@@ -10,7 +10,10 @@ import (
 	"github.com/snowzach/qvspot/store"
 )
 
-const TypeVendor = "vendor"
+const (
+	IdPrefixVendor = "vendor:"
+	TypeVendor     = "vendor"
+)
 
 // Includes the type field
 type ESVendor struct {

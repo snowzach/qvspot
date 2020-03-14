@@ -23,9 +23,6 @@ import (
 var versionRegexp = regexp.MustCompile(`^7\..*`)
 
 const (
-	IdPrefixVendor  = "vendor:"
-	IdPrefixProduct = "product:"
-
 	IndexAll    = "all"
 	IndexVendor = "vendor"
 )

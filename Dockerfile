@@ -5,10 +5,6 @@ RUN apk add --no-cache make git protobuf protobuf-dev curl && \
 ENV CGO_ENABLED 0
 ENV GOOS linux
 
-# Workaround for private dependencies
-#ARG CI_JOB_TOKEN
-#RUN sh -c 'if [[ "$CI_JOB_TOKEN" ]]; then echo -e "machine git.coinninja.net\\nlogin gitlab-ci-token\\npassword ${CI_JOB_TOKEN}" > "$HOME/.netrc"; fi'
-
 WORKDIR /build
 COPY . .
 RUN make

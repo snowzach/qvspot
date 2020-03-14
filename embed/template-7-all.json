@@ -59,6 +59,12 @@
             "id": {
                 "type": "keyword"
             },
+            "created": {
+                "type": "date"
+            },
+            "updated": {
+                "type": "date"
+            },
             "name": {
                 "type": "text"
             },
@@ -69,10 +75,13 @@
                 "type": "keyword",
                 "index": false
             },
+            "product_id": {
+                "type": "keyword"
+            },
             "vendor_id": {
                 "type": "keyword"
             },
-            "vendor_loc_id": {
+            "vendor_location_id": {
                 "type": "keyword"
             },
             "location": {
@@ -87,11 +96,11 @@
             "unit": {
                 "type": "boolean"
             },
-            "start": {
-                "type": "keyword"
+            "start_time": {
+                "type": "date"
             },
-            "end": {
-                "type": "keyword"
+            "end_time": {
+                "type": "date"
             },
             "attr": {
                 "type": "object"
