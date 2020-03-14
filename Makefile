@@ -59,7 +59,7 @@ ${EMBEDDIR}/bindata.go: ${EMBED} ${SWAGGERDOCS} embed/public/api-docs/index.html
 
 .PHONY: mocks
 mocks: tools
-	mockery -dir ./thingrpc -name ThingStore
+	# TBD
 
 .PHONY: ${EXECUTABLE}
 ${EXECUTABLE}: tools ${PROTOS} ${EMBEDDIR}/bindata.go
