@@ -1,4 +1,4 @@
-package manager
+package manager_rpc
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 // VendorLocationInsert creates a vendorLocation
 func (s *managerRPCServer) VendorLocationInsert(ctx context.Context, vendorLocation *qvspot.VendorLocation) (*qvspot.VendorLocation, error) {
 
-	err := s.qvStore.VendorLocationInsert(vendorLocation)
+	err := s.qvStore.VendorLocationInsert(ctx, vendorLocation)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -25,7 +25,7 @@ func (s *managerRPCServer) VendorLocationInsert(ctx context.Context, vendorLocat
 // VendorLocationGet returns the vendorLocation
 func (s *managerRPCServer) VendorLocationGetById(ctx context.Context, request *qvspot.Request) (*qvspot.VendorLocation, error) {
 
-	vendorLocation, err := s.qvStore.VendorLocationGetById(request.Id)
+	vendorLocation, err := s.qvStore.VendorLocationGetById(ctx, request.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -37,7 +37,7 @@ func (s *managerRPCServer) VendorLocationGetById(ctx context.Context, request *q
 // VendorLocationDelete deletes a vendorLocation
 func (s *managerRPCServer) VendorLocationDeleteById(ctx context.Context, request *qvspot.Request) (*emptypb.Empty, error) {
 
-	err := s.qvStore.VendorLocationDeleteById(request.Id)
+	err := s.qvStore.VendorLocationDeleteById(ctx, request.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

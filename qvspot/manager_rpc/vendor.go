@@ -1,4 +1,4 @@
-package manager
+package manager_rpc
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 // VendorInsert creates a vendor
 func (s *managerRPCServer) VendorInsert(ctx context.Context, vendor *qvspot.Vendor) (*qvspot.Vendor, error) {
 
-	err := s.qvStore.VendorInsert(vendor)
+	err := s.qvStore.VendorInsert(ctx, vendor)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -25,7 +25,7 @@ func (s *managerRPCServer) VendorInsert(ctx context.Context, vendor *qvspot.Vend
 // VendorGet returns the vendor
 func (s *managerRPCServer) VendorGetById(ctx context.Context, request *qvspot.Request) (*qvspot.Vendor, error) {
 
-	vendor, err := s.qvStore.VendorGetById(request.Id)
+	vendor, err := s.qvStore.VendorGetById(ctx, request.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -37,7 +37,7 @@ func (s *managerRPCServer) VendorGetById(ctx context.Context, request *qvspot.Re
 // VendorDelete deletes a vendor
 func (s *managerRPCServer) VendorDeleteById(ctx context.Context, request *qvspot.Request) (*emptypb.Empty, error) {
 
-	err := s.qvStore.VendorDeleteById(request.Id)
+	err := s.qvStore.VendorDeleteById(ctx, request.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

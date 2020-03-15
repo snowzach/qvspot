@@ -1,6 +1,7 @@
 package esearch
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -22,7 +23,7 @@ type ESProductLocation struct {
 }
 
 // ProductLocationInsert inserts/replaces a productLocation
-func (e *esearch) ProductLocationInsert(productLocation *qvspot.ProductLocation) error {
+func (e *esearch) ProductLocationInsert(ctx context.Context, productLocation *qvspot.ProductLocation) error {
 
 	request := elastic.NewBulkIndexRequest().
 		Index(e.indexName(IndexAll, IndexVendor)).
@@ -37,12 +38,12 @@ func (e *esearch) ProductLocationInsert(productLocation *qvspot.ProductLocation)
 }
 
 // ProductLocationGetById returns a productLocation by id
-func (e *esearch) ProductLocationGetById(productLocationId string) (*qvspot.ProductLocation, error) {
+func (e *esearch) ProductLocationGetById(ctx context.Context, productLocationId string) (*qvspot.ProductLocation, error) {
 
 	res, err := e.client.Get().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Id(IdPrefixProductLocation + productLocationId).
-		Do(e.ctx)
+		Do(ctx)
 	if elastic.IsNotFound(err) {
 		return nil, store.ErrNotFound
 	} else if err != nil {
@@ -57,12 +58,12 @@ func (e *esearch) ProductLocationGetById(productLocationId string) (*qvspot.Prod
 }
 
 // ProductLocationDeleteById removes a productLocation by id
-func (e *esearch) ProductLocationDeleteById(productLocationId string) error {
+func (e *esearch) ProductLocationDeleteById(ctx context.Context, productLocationId string) error {
 
 	_, err := e.client.Delete().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Id(IdPrefixProductLocation + productLocationId).
 		Refresh("true").
-		Do(e.ctx)
+		Do(ctx)
 	return err
 }

@@ -6,7 +6,8 @@ import (
 
 	"github.com/snowzach/qvspot/conf"
 	"github.com/snowzach/qvspot/qvspot"
-	"github.com/snowzach/qvspot/qvspot/manager"
+	"github.com/snowzach/qvspot/qvspot/client_rpc"
+	"github.com/snowzach/qvspot/qvspot/manager_rpc"
 	"github.com/snowzach/qvspot/server"
 	"github.com/snowzach/qvspot/store/esearch"
 )
@@ -49,16 +50,25 @@ var (
 			}
 
 			// Create the rpcserver
-			manager, err := manager.New(es)
+			managerRPCServer, err := manager_rpc.New(es)
 			if err != nil {
-				logger.Fatalw("Could not create thing rpcserver",
+				logger.Fatalw("Could not create manager rpcserver",
+					"error", err,
+				)
+			}
+
+			clientRPCServer, err := client_rpc.New(es)
+			if err != nil {
+				logger.Fatalw("Could not create client rpcserver",
 					"error", err,
 				)
 			}
 
 			// Register the Thing RPC server to the GRPC Server
-			qvspot.RegisterManagerRPCServer(s.GRPCServer(), manager)
+			qvspot.RegisterManagerRPCServer(s.GRPCServer(), managerRPCServer)
 			s.GwReg(qvspot.RegisterManagerRPCHandlerFromEndpoint)
+			qvspot.RegisterClientRPCServer(s.GRPCServer(), clientRPCServer)
+			s.GwReg(qvspot.RegisterClientRPCHandlerFromEndpoint)
 
 			err = s.ListenAndServe()
 			if err != nil {

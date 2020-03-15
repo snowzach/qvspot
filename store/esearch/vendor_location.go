@@ -1,6 +1,7 @@
 package esearch
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -22,7 +23,7 @@ type ESVendorLocation struct {
 }
 
 // VendorLocationInsert inserts/replaces a vendorLocation
-func (e *esearch) VendorLocationInsert(vendorLocation *qvspot.VendorLocation) error {
+func (e *esearch) VendorLocationInsert(ctx context.Context, vendorLocation *qvspot.VendorLocation) error {
 
 	request := elastic.NewBulkIndexRequest().
 		Index(e.indexName(IndexAll, IndexVendor)).
@@ -37,12 +38,12 @@ func (e *esearch) VendorLocationInsert(vendorLocation *qvspot.VendorLocation) er
 }
 
 // VendorLocationGetById returns a vendorLocation by id
-func (e *esearch) VendorLocationGetById(vendorLocationId string) (*qvspot.VendorLocation, error) {
+func (e *esearch) VendorLocationGetById(ctx context.Context, vendorLocationId string) (*qvspot.VendorLocation, error) {
 
 	res, err := e.client.Get().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Id(IdPrefixVendorLocation + vendorLocationId).
-		Do(e.ctx)
+		Do(ctx)
 	if elastic.IsNotFound(err) {
 		return nil, store.ErrNotFound
 	} else if err != nil {
@@ -57,12 +58,12 @@ func (e *esearch) VendorLocationGetById(vendorLocationId string) (*qvspot.Vendor
 }
 
 // VendorLocationDeleteById removes a vendorLocation by id
-func (e *esearch) VendorLocationDeleteById(vendorLocationId string) error {
+func (e *esearch) VendorLocationDeleteById(ctx context.Context, vendorLocationId string) error {
 
 	_, err := e.client.Delete().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Id(IdPrefixVendorLocation + vendorLocationId).
 		Refresh("true").
-		Do(e.ctx)
+		Do(ctx)
 	return err
 }

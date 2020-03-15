@@ -1,4 +1,4 @@
-package manager
+package manager_rpc
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 // ProductInsert creates a product
 func (s *managerRPCServer) ProductInsert(ctx context.Context, product *qvspot.Product) (*qvspot.Product, error) {
 
-	err := s.qvStore.ProductInsert(product)
+	err := s.qvStore.ProductInsert(ctx, product)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -25,7 +25,7 @@ func (s *managerRPCServer) ProductInsert(ctx context.Context, product *qvspot.Pr
 // ProductGet returns the product
 func (s *managerRPCServer) ProductGetById(ctx context.Context, request *qvspot.Request) (*qvspot.Product, error) {
 
-	product, err := s.qvStore.ProductGetById(request.Id)
+	product, err := s.qvStore.ProductGetById(ctx, request.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -37,7 +37,7 @@ func (s *managerRPCServer) ProductGetById(ctx context.Context, request *qvspot.R
 // ProductDelete deletes a product
 func (s *managerRPCServer) ProductDeleteById(ctx context.Context, request *qvspot.Request) (*emptypb.Empty, error) {
 
-	err := s.qvStore.ProductDeleteById(request.Id)
+	err := s.qvStore.ProductDeleteById(ctx, request.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

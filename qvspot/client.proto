@@ -1,0 +1,58 @@
+syntax="proto3";
+package qvspot;
+
+import "google/api/annotations.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+import "qvspot/qvspot.proto";
+
+option go_package = "github.com/snowzach/qvspot/qvspot";
+
+service ClientRPC {
+
+    // Create/Replace a vendor
+    rpc ProductSearch(ProductSearchRequest) returns (ProductSearchResponse) {
+        option (google.api.http) = {
+            post: "/product/search"
+            body: "*"
+            additional_bindings: {
+                get: "/product/search"
+            }
+        };
+    }
+
+}
+
+message ProductSearchRequest {
+
+    string search = 1;
+
+    // string metadata
+    map<string, StringList> attr = 2 [(gogoproto.jsontag) = "attr"]; // Remove omitempty
+    // numeric metadata
+    map<string, Range> attr_num = 3 [(gogoproto.jsontag) = "attr_num"]; // Remove omitempty
+
+    // location
+    qvspot.Location location = 4;
+    double radius = 5;
+
+    // owning vendor_id
+    string vendor_id = 13;
+
+    int32 offset = 14;
+    int32 limit = 15;
+    
+}
+
+message ProductResult {
+    qvspot.Product product = 1;
+}
+
+message ProductSearchResponse {
+    repeated ProductResult results = 1; 
+}
+
+message Range {
+    double min = 1;
+    double max = 2;
+}

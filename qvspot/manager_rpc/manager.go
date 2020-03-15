@@ -1,4 +1,4 @@
-package manager
+package manager_rpc
 
 import (
 	"context"
@@ -23,7 +23,7 @@ func New(qvStore qvspot.QVStore) (qvspot.ManagerRPCServer, error) {
 func newServer(qvStore qvspot.QVStore) (*managerRPCServer, error) {
 
 	return &managerRPCServer{
-		logger:  zap.S().With("package", "qvspot.product_server"),
+		logger:  zap.S().With("package", "qvspot.manager_rpc"),
 		qvStore: qvStore,
 	}, nil
 

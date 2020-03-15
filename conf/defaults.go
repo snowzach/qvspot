@@ -76,4 +76,6 @@ func init() {
 	config.SetDefault("elasticsearch.bulk_stats_interval", "60s")
 	config.SetDefault("elasticsearch.wipe_confirm", false)
 
+	config.SetDefault("api.default_limit", 20)
+
 }

@@ -107,9 +107,6 @@
             },
             "attr_num": {
                 "type": "object"
-            },
-            "attr_list": {
-                "type": "object"
             }
         }
     }

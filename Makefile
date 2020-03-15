@@ -13,6 +13,7 @@ TOOLS := ${GOPATH}/bin/go-bindata \
 export PROTOBUF_INCLUDES = -I. -I/usr/include -I${GOPATH}/src -I$(shell go list -e -f '{{.Dir}}' .) -I$(shell go list -e -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway/runtime)/../ -I$(shell go list -e -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway/runtime)/../third_party/googleapis
 PROTOS := ./qvspot/qvspot.pb.go \
 	./qvspot/manager.pb.gw.go \
+	./qvspot/client.pb.gw.go \
 	./server/versionrpc/version.pb.gw.go
 SWAGGERDOCS = 	./server/versionrpc/version.swagger.json \
 				./qvspot/manager.swagger.json

@@ -1,6 +1,7 @@
 package esearch
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -22,7 +23,7 @@ type ESProduct struct {
 }
 
 // ProductInsert inserts/replaces a product
-func (e *esearch) ProductInsert(product *qvspot.Product) error {
+func (e *esearch) ProductInsert(ctx context.Context, product *qvspot.Product) error {
 
 	request := elastic.NewBulkIndexRequest().
 		Index(e.indexName(IndexAll, IndexVendor)).
@@ -37,12 +38,12 @@ func (e *esearch) ProductInsert(product *qvspot.Product) error {
 }
 
 // ProductGetById returns a product by id
-func (e *esearch) ProductGetById(productId string) (*qvspot.Product, error) {
+func (e *esearch) ProductGetById(ctx context.Context, productId string) (*qvspot.Product, error) {
 
 	res, err := e.client.Get().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Id(IdPrefixProduct + productId).
-		Do(e.ctx)
+		Do(ctx)
 	if elastic.IsNotFound(err) {
 		return nil, store.ErrNotFound
 	} else if err != nil {
@@ -57,12 +58,12 @@ func (e *esearch) ProductGetById(productId string) (*qvspot.Product, error) {
 }
 
 // ProductDeleteById removes a product by id
-func (e *esearch) ProductDeleteById(productId string) error {
+func (e *esearch) ProductDeleteById(ctx context.Context, productId string) error {
 
 	_, err := e.client.Delete().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Id(IdPrefixProduct + productId).
 		Refresh("true").
-		Do(e.ctx)
+		Do(ctx)
 	return err
 }

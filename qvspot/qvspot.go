@@ -1,19 +1,25 @@
 package qvspot
 
+import (
+	"context"
+)
+
 type QVStore interface {
-	VendorInsert(vendor *Vendor) error
-	VendorGetById(vendorId string) (*Vendor, error)
-	VendorDeleteById(vendorId string) error
+	VendorInsert(ctx context.Context, vendor *Vendor) error
+	VendorGetById(ctx context.Context, vendorId string) (*Vendor, error)
+	VendorDeleteById(ctx context.Context, vendorId string) error
 
-	VendorLocationInsert(vendorLocation *VendorLocation) error
-	VendorLocationGetById(vendorLocationId string) (*VendorLocation, error)
-	VendorLocationDeleteById(vendorLocationId string) error
+	VendorLocationInsert(ctx context.Context, vendorLocation *VendorLocation) error
+	VendorLocationGetById(ctx context.Context, vendorLocationId string) (*VendorLocation, error)
+	VendorLocationDeleteById(ctx context.Context, vendorLocationId string) error
 
-	ProductLocationInsert(productLocation *ProductLocation) error
-	ProductLocationGetById(productLocationId string) (*ProductLocation, error)
-	ProductLocationDeleteById(productLocationId string) error
+	ProductLocationInsert(ctx context.Context, productLocation *ProductLocation) error
+	ProductLocationGetById(ctx context.Context, productLocationId string) (*ProductLocation, error)
+	ProductLocationDeleteById(ctx context.Context, productLocationId string) error
 
-	ProductInsert(product *Product) error
-	ProductGetById(productId string) (*Product, error)
-	ProductDeleteById(productId string) error
+	ProductInsert(ctx context.Context, product *Product) error
+	ProductGetById(ctx context.Context, productId string) (*Product, error)
+	ProductDeleteById(ctx context.Context, productId string) error
+
+	ProductSearch(ctx context.Context, search *ProductSearchRequest) (*ProductSearchResponse, error)
 }
