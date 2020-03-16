@@ -13,10 +13,10 @@ service ClientRPC {
     // Create/Replace a vendor
     rpc ProductSearch(ProductSearchRequest) returns (ProductSearchResponse) {
         option (google.api.http) = {
-            post: "/product/search"
+            post: "/search"
             body: "*"
             additional_bindings: {
-                get: "/product/search"
+                get: "/search"
             }
         };
     }

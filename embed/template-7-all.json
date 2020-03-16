@@ -65,27 +65,14 @@
             "updated": {
                 "type": "date"
             },
-            "name": {
-                "type": "text"
-            },
-            "desc": {
-                "type": "text"
-            },
-            "pic_url": {
-                "type": "keyword",
-                "index": false
+            "vendor_id": {
+                "type": "keyword"
             },
             "product_id": {
                 "type": "keyword"
             },
-            "vendor_id": {
+            "location_id": {
                 "type": "keyword"
-            },
-            "vendor_location_id": {
-                "type": "keyword"
-            },
-            "location": {
-                "type": "geo_point"
             },
             "stock": {
                 "type": "double"
@@ -102,11 +89,103 @@
             "end_time": {
                 "type": "date"
             },
+            "vendor": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "keyword"
+                    },
+                    "created": {
+                        "type": "date"
+                    },
+                    "updated": {
+                        "type": "date"
+                    },
+                    "name": {
+                        "type": "text"
+                    },
+                    "desc": {
+                        "type": "text"
+                    }
+                }
+            },
+            "product": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "keyword"
+                    },
+                    "created": {
+                        "type": "date"
+                    },
+                    "updated": {
+                        "type": "date"
+                    },
+                    "vendor_id": {
+                        "type": "text"
+                    },
+                    "name": {
+                        "type": "text"
+                    },
+                    "desc": {
+                        "type": "text"
+                    },
+                    "pic_url": {
+                        "type": "keyword",
+                        "index": false
+                    },
+                    "attr": {
+                        "type": "object"
+                    },
+                    "attr_num": {
+                        "type": "object"
+                    }
+                }
+            },
+            "location": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "keyword"
+                    },
+                    "created": {
+                        "type": "date"
+                    },
+                    "updated": {
+                        "type": "date"
+                    },
+                    "vendor_id": {
+                        "type": "text"
+                    },
+                    "name": {
+                        "type": "text"
+                    },
+                    "desc": {
+                        "type": "text"
+                    },
+                    "position": {
+                        "type": "geo_point"
+                    }
+                }
+            },
+            "name": {
+                "type": "text"
+            },
+            "desc": {
+                "type": "text"
+            },
+            "pic_url": {
+                "type": "keyword",
+                "index": false
+            },
             "attr": {
                 "type": "object"
             },
             "attr_num": {
                 "type": "object"
+            },
+            "position": {
+                "type": "geo_point"
             }
         }
     }

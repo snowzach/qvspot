@@ -13,11 +13,11 @@ import (
 // VendorInsert inserts/replaces a vendor
 func (e *esearch) ProductSearch(ctx context.Context, search *qvspot.ProductSearchRequest) (*qvspot.ProductSearchResponse, error) {
 
-	query := elastic.NewBoolQuery().Filter(elastic.NewTermQuery("type", TypeProduct))
+	query := elastic.NewBoolQuery().Filter(elastic.NewTermQuery("type", TypeItem))
 
 	// Field search
 	if search.Search != "" {
-		query.Must(elastic.NewMultiMatchQuery(search.Search, "id", "name", "desc"))
+		query.Must(elastic.NewMultiMatchQuery(search.Search, "id", "product.id", "product.name", "product.desc"))
 	}
 
 	// Attributes

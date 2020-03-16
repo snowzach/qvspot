@@ -9,13 +9,13 @@ type QVStore interface {
 	VendorGetById(ctx context.Context, vendorId string) (*Vendor, error)
 	VendorDeleteById(ctx context.Context, vendorId string) error
 
-	VendorLocationInsert(ctx context.Context, vendorLocation *VendorLocation) error
-	VendorLocationGetById(ctx context.Context, vendorLocationId string) (*VendorLocation, error)
-	VendorLocationDeleteById(ctx context.Context, vendorLocationId string) error
+	LocationInsert(ctx context.Context, location *Location) error
+	LocationGetById(ctx context.Context, locationId string) (*Location, error)
+	LocationDeleteById(ctx context.Context, locationId string) error
 
-	ProductLocationInsert(ctx context.Context, productLocation *ProductLocation) error
-	ProductLocationGetById(ctx context.Context, productLocationId string) (*ProductLocation, error)
-	ProductLocationDeleteById(ctx context.Context, productLocationId string) error
+	ItemInsert(ctx context.Context, item *Item) error
+	ItemGetById(ctx context.Context, itemId string) (*Item, error)
+	ItemDeleteById(ctx context.Context, itemId string) error
 
 	ProductInsert(ctx context.Context, product *Product) error
 	ProductGetById(ctx context.Context, productId string) (*Product, error)

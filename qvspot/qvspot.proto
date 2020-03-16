@@ -12,8 +12,16 @@ message Vendor {
         example: { value: '{"id": "vendor123", "name": "vendor123"}' }
     };
 
+    // id
     string id = 1;
-    string name = 2;
+    // created
+    google.protobuf.Timestamp created = 2 [(gogoproto.stdtime) = true];
+    // updated
+    google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
+    // name
+    string name = 4;
+    // description
+    string desc = 5;
 }
 
 // Product
@@ -28,72 +36,78 @@ message Product {
     google.protobuf.Timestamp created = 2 [(gogoproto.stdtime) = true];
     // updated
     google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
+    // owning vendor_id
+    string vendor_id = 4;
     // name
-    string name = 4;
+    string name = 5;
     // description
-    string desc = 5;
+    string desc = 6;
     // picture url
-    string pic_url = 6;
+    string pic_url = 7;
     
     // string metadata
-    map<string, StringList> attr = 13 [(gogoproto.jsontag) = "attr,omitempty"]; // Remove omitempty
+    map<string, StringList> attr = 14 [(gogoproto.jsontag) = "attr,omitempty"]; // Remove omitempty
     // numeric metadata
-    map<string, double> attr_num = 14 [(gogoproto.jsontag) = "attr_num,omitempty"]; // Remove omitempty
+    map<string, double> attr_num = 15 [(gogoproto.jsontag) = "attr_num,omitempty"]; // Remove omitempty
 
-    // owning vendor_id
-    string vendor_id = 15;
 }
 
 // Vendor Location
-message VendorLocation {
+message Location {
     // id field
     string id = 1;
     // created
     google.protobuf.Timestamp created = 2 [(gogoproto.stdtime) = true];
     // updated
     google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
+    // owning vendor_id
+    string vendor_id = 4;
     // location name
     string name = 5;
-    // location name
+    // description
     string desc = 6;
     // location
-    Location location = 7;
+    Position position = 7;
 
-    // owning vendor_id
-    string vendor_id = 15;
 }
 
-// Product Location
-message ProductLocation {
-    // Tuple of product_id,vendor_location_id
+// Item
+message Item {
+    // Tuple of vendor_id+product_id+location_id
     string id = 1;
     // created
     google.protobuf.Timestamp created = 2 [(gogoproto.stdtime) = true];
     // updated
     google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
-    // vendor location id
-    string vendor_location_id = 5;
+
+    // vendor id
+    string vendor_id = 4;
     // product id
-    string product_id = 6;
+    string product_id = 5;
+    // location id
+    string location_id = 6;
+
     // stock
     sint64 stock = 7;
     // price
     double price = 8;
-    // location - for denormalization
-    Location location = 9;
-
+   
     // unit - there is only one - like an appointment
-    bool unit = 12;
+    bool unit = 9;
     // start/end for atomic
-    google.protobuf.Timestamp start_time = 13 [(gogoproto.stdtime) = true];
-    google.protobuf.Timestamp end_time = 14 [(gogoproto.stdtime) = true];
+    google.protobuf.Timestamp start_time = 10 [(gogoproto.stdtime) = true];
+    google.protobuf.Timestamp end_time = 11 [(gogoproto.stdtime) = true];
 
-    // owning vendor id
-    string vendor_id = 15;
+    // vendor - for denormalization
+    Vendor vendor = 13;
+    // location location - for denormalization
+    Location location = 14;
+    // product - for denormalization
+    Product product = 15;    
 }
 
-// location
-message Location {
+// position
+message Position {
     // location latitude
     double lat = 4;
     // location longitude

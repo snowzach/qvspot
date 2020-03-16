@@ -32,28 +32,6 @@ service ManagerRPC {
         };
     }
 
-    // Create/Replace a vendor location
-    rpc VendorLocationInsert(qvspot.VendorLocation) returns (qvspot.VendorLocation) {
-        option (google.api.http) = {
-            post: "/vendor/location"
-            body: "*"
-        };
-    }
-
-    // Fetch a vendor location by id
-    rpc VendorLocationGetById(Request) returns (qvspot.VendorLocation) {
-        option (google.api.http) = {
-            get: "/vendor/location/{id}"
-        };
-    }
-
-    // Delete a vendor location by id
-    rpc VendorLocationDeleteById(Request) returns (google.protobuf.Empty) {
-        option (google.api.http) = {
-            delete: "/vendor/location/{id}"
-        };
-    }
-
     // Create/Replace a product
     rpc ProductInsert(qvspot.Product) returns (qvspot.Product) {
         option (google.api.http) = {
@@ -75,26 +53,48 @@ service ManagerRPC {
             delete: "/product/{id}"
         };
     }
-
-    // Create/Replace a vendor location
-    rpc ProductLocationInsert(qvspot.ProductLocation) returns (qvspot.ProductLocation) {
+    
+    // Create/Replace a location
+    rpc LocationInsert(qvspot.Location) returns (qvspot.Location) {
         option (google.api.http) = {
-            post: "/product/location"
+            post: "/location"
             body: "*"
         };
     }
 
-    // Fetch a prodcut location by id
-    rpc ProductLocationGetById(Request) returns (qvspot.ProductLocation) {
+    // Fetch a location by id
+    rpc LocationGetById(Request) returns (qvspot.Location) {
         option (google.api.http) = {
-            get: "/product/location/{id}"
+            get: "/location/{id}"
         };
     }
 
-    // Delete a vendor location by id
-    rpc ProductLocationDeleteById(Request) returns (google.protobuf.Empty) {
+    // Delete a location by id
+    rpc LocationDeleteById(Request) returns (google.protobuf.Empty) {
         option (google.api.http) = {
-            delete: "/product/location/{id}"
+            delete: "/location/{id}"
+        };
+    }
+
+    // Create/Replace an item
+    rpc ItemInsert(qvspot.Item) returns (qvspot.Item) {
+        option (google.api.http) = {
+            post: "/item"
+            body: "*"
+        };
+    }
+
+    // Fetch an item by id
+    rpc ItemGetById(Request) returns (qvspot.Item) {
+        option (google.api.http) = {
+            get: "/item/{id}"
+        };
+    }
+
+    // Delete a item by id
+    rpc ItemDeleteById(Request) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/item/{id}"
         };
     }
 
