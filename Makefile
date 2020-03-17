@@ -16,7 +16,8 @@ PROTOS := ./qvspot/qvspot.pb.go \
 	./qvspot/client.pb.gw.go \
 	./server/versionrpc/version.pb.gw.go
 SWAGGERDOCS = 	./server/versionrpc/version.swagger.json \
-				./qvspot/manager.swagger.json
+				./qvspot/manager.swagger.json \
+				./qvspot/client.swagger.json
 SWAGGER_VERSION = 3.20.8
 
 .PHONY: default
@@ -51,12 +52,12 @@ ${GOPATH}/bin/protoc-gen-swagger:
 %.pb.go: %.proto
 	protoc ${PROTOBUF_INCLUDES} --gogoslick_out=paths=source_relative,plugins=grpc:. $*.proto
 
-${EMBEDDIR}/bindata.go: ${EMBED} ${SWAGGERDOCS} embed/public/api-docs/index.html embed/public/swagger-ui/index.html
+${EMBEDDIR}/bindata.go: ${EMBED} ${SWAGGERDOCS} $(wildcard embed/postgres_migrations/*.sql) embed/public/api-docs/index.html embed/public/swagger-ui/index.html
 	# Copying swagger docs
 	mkdir -p embed/public/api-docs
 	cp $(SWAGGERDOCS) embed/public/api-docs
 	# Building bindata
-	go-bindata -o ${EMBEDDIR}/bindata.go -prefix ${EMBEDDIR} -pkg embed ${EMBED} embed/public/...
+	go-bindata -o ${EMBEDDIR}/bindata.go -prefix ${EMBEDDIR} -pkg embed ${EMBED} embed/postgres_migrations/... embed/public/...
 
 .PHONY: mocks
 mocks: tools

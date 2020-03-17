@@ -104,7 +104,7 @@
                     "name": {
                         "type": "text"
                     },
-                    "desc": {
+                    "descrip": {
                         "type": "text"
                     }
                 }
@@ -127,7 +127,7 @@
                     "name": {
                         "type": "text"
                     },
-                    "desc": {
+                    "descrip": {
                         "type": "text"
                     },
                     "pic_url": {
@@ -160,7 +160,7 @@
                     "name": {
                         "type": "text"
                     },
-                    "desc": {
+                    "descrip": {
                         "type": "text"
                     },
                     "position": {
@@ -171,7 +171,7 @@
             "name": {
                 "type": "text"
             },
-            "desc": {
+            "descrip": {
                 "type": "text"
             },
             "pic_url": {

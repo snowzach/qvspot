@@ -10,10 +10,10 @@ import (
 	"github.com/snowzach/qvspot/qvspot"
 )
 
-// ProductInsert creates a product
-func (s *managerRPCServer) ProductInsert(ctx context.Context, product *qvspot.Product) (*qvspot.Product, error) {
+// ProductSave creates a product
+func (s *managerRPCServer) ProductSave(ctx context.Context, product *qvspot.Product) (*qvspot.Product, error) {
 
-	err := s.qvStore.ProductInsert(ctx, product)
+	err := s.qvStore.ProductSave(ctx, product)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

@@ -33,7 +33,7 @@ message ProductSearchRequest {
     map<string, Range> attr_num = 3 [(gogoproto.jsontag) = "attr_num"]; // Remove omitempty
 
     // location
-    qvspot.Location location = 4;
+    qvspot.Position position = 4;
     double radius = 5;
 
     // owning vendor_id
@@ -45,7 +45,10 @@ message ProductSearchRequest {
 }
 
 message ProductResult {
+    // The prducts
     qvspot.Product product = 1;
+    // The count of product
+    int64 matches = 2;
 }
 
 message ProductSearchResponse {

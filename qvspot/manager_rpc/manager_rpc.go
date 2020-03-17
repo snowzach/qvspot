@@ -9,22 +9,24 @@ import (
 )
 
 type managerRPCServer struct {
-	logger  *zap.SugaredLogger
-	qvStore qvspot.QVStore
+	logger   *zap.SugaredLogger
+	qvStore  qvspot.QVStore
+	qvSearch qvspot.QVSearch
 }
 
 // New returns a new rpc server
-func New(qvStore qvspot.QVStore) (qvspot.ManagerRPCServer, error) {
+func New(qvStore qvspot.QVStore, qvSearch qvspot.QVSearch) (qvspot.ManagerRPCServer, error) {
 
-	return newServer(qvStore)
+	return newServer(qvStore, qvSearch)
 
 }
 
-func newServer(qvStore qvspot.QVStore) (*managerRPCServer, error) {
+func newServer(qvStore qvspot.QVStore, qvSearch qvspot.QVSearch) (*managerRPCServer, error) {
 
 	return &managerRPCServer{
-		logger:  zap.S().With("package", "qvspot.manager_rpc"),
-		qvStore: qvStore,
+		logger:   zap.S().With("package", "qvspot.manager_rpc"),
+		qvStore:  qvStore,
+		qvSearch: qvSearch,
 	}, nil
 
 }

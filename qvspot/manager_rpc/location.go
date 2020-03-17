@@ -10,10 +10,10 @@ import (
 	"github.com/snowzach/qvspot/qvspot"
 )
 
-// LocationInsert creates a location
-func (s *managerRPCServer) LocationInsert(ctx context.Context, location *qvspot.Location) (*qvspot.Location, error) {
+// LocationSave creates a location
+func (s *managerRPCServer) LocationSave(ctx context.Context, location *qvspot.Location) (*qvspot.Location, error) {
 
-	err := s.qvStore.LocationInsert(ctx, location)
+	err := s.qvStore.LocationSave(ctx, location)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

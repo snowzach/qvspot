@@ -16,7 +16,7 @@ func (s *clientRPCServer) ProductSearch(ctx context.Context, search *qvspot.Prod
 		search.Limit = s.defaultLimit
 	}
 
-	response, err := s.qvStore.ProductSearch(ctx, search)
+	response, err := s.qvSearch.ProductSearch(ctx, search)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

@@ -8,12 +8,17 @@ require (
 	github.com/go-chi/cors v1.0.0
 	github.com/go-chi/render v1.0.1
 	github.com/gogo/protobuf v1.3.1
+	github.com/golang-migrate/migrate/v4 v4.10.0
 	github.com/golang/protobuf v1.3.5
 	github.com/grpc-ecosystem/go-grpc-middleware v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.14.3
+	github.com/jmoiron/sqlx v1.2.0
+	github.com/lib/pq v1.3.0
 	github.com/olivere/elastic/v7 v7.0.12
 	github.com/pelletier/go-toml v1.6.0 // indirect
+	github.com/rs/xid v1.2.1
 	github.com/snowzach/certtools v1.0.2
+	github.com/snowzach/gogrpcapi v0.0.0-20200310015726-54005d4a2f5c // indirect
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/cobra v0.0.6

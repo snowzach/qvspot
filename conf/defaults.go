@@ -47,7 +47,7 @@ func init() {
 	config.SetDefault("storage.password", "password")
 	config.SetDefault("storage.host", "postgres")
 	config.SetDefault("storage.port", 5432)
-	config.SetDefault("storage.database", "gogrpcapi")
+	config.SetDefault("storage.database", "qvspot")
 	config.SetDefault("storage.sslmode", "disable")
 	config.SetDefault("storage.retries", 5)
 	config.SetDefault("storage.sleep_between_retries", "7s")

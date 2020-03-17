@@ -23,7 +23,7 @@ type ESItem struct {
 }
 
 // ItemInsert inserts/replaces a item
-func (e *esearch) ItemInsert(ctx context.Context, item *qvspot.Item) error {
+func (e *esearch) ItemSave(ctx context.Context, item *qvspot.Item) error {
 
 	request := elastic.NewBulkIndexRequest().
 		Index(e.indexName(IndexAll, IndexVendor)).

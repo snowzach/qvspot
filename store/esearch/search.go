@@ -26,32 +26,38 @@ func (e *esearch) ProductSearch(ctx context.Context, search *qvspot.ProductSearc
 		for i, value := range values.List {
 			list[i] = value
 		}
-		query.Filter(elastic.NewTermsQuery(attr, list...))
+		query.Filter(elastic.NewTermsQuery("product."+attr, list...))
 	}
 
 	// Numeric Attributes
 	for attr, values := range search.AttrNum {
-		query.Filter(elastic.NewRangeQuery(attr).Gte(values.Min).Lte(values.Max))
+		query.Filter(elastic.NewRangeQuery("product." + attr).Gte(values.Min).Lte(values.Max))
 	}
 
 	res, err := e.client.Search().
 		Index(e.indexName(IndexAll, IndexVendor)).
 		Query(query).
-		From(int(search.Offset)).Size(int(search.Limit)).Do(ctx)
+		Aggregation("product_id", elastic.NewTermsAggregation().Field("product_id").SubAggregation("product", elastic.NewTopHitsAggregation().Size(1))).
+		Size(0).
+		Do(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("Could not get search results: %v", err)
 	}
 
 	results := make([]*qvspot.ProductResult, len(res.Hits.Hits), len(res.Hits.Hits))
 
-	for i, hit := range res.Hits.Hits {
-		product := new(qvspot.Product)
-		err := json.Unmarshal(hit.Source, &product)
-		if err != nil {
-			return nil, fmt.Errorf("Could not parse Block: %s", err)
-		}
-		results[i] = &qvspot.ProductResult{
-			Product: product,
+	if products, ok := res.Aggregations.Terms("product_id"); ok {
+		for _, productMatch := range products.Buckets {
+			item := new(qvspot.Item)
+			if hits, ok := productMatch.Aggregations.TopHits("product"); ok {
+				if err = json.Unmarshal(hits.Hits.Hits[0].Source, &item); err != nil {
+					return nil, fmt.Errorf("Could not parse hit: %s", err)
+				}
+				results = append(results, &qvspot.ProductResult{
+					Product: item.Product,
+					Matches: productMatch.DocCount,
+				})
+			}
 		}
 	}
 

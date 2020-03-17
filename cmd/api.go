@@ -6,10 +6,12 @@ import (
 
 	"github.com/snowzach/qvspot/conf"
 	"github.com/snowzach/qvspot/qvspot"
+
 	"github.com/snowzach/qvspot/qvspot/client_rpc"
 	"github.com/snowzach/qvspot/qvspot/manager_rpc"
 	"github.com/snowzach/qvspot/server"
 	"github.com/snowzach/qvspot/store/esearch"
+	"github.com/snowzach/qvspot/store/postgres"
 )
 
 func init() {
@@ -23,14 +25,10 @@ var (
 		Long:  `Start API`,
 		Run: func(cmd *cli.Command, args []string) { // Initialize the databse
 
-			// var err error
-			// switch config.GetString("storage.type") {
-			// case "postgres":
-			// 	thingStore, err = postgres.New()
-			// }
-			// if err != nil {
-			// 	logger.Fatalw("Database Error", "error", err)
-			// }
+			pg, err := postgres.New()
+			if err != nil {
+				logger.Fatalw("Database Error", "error", err)
+			}
 
 			es, err := esearch.New()
 			if err != nil {
@@ -50,7 +48,7 @@ var (
 			}
 
 			// Create the rpcserver
-			managerRPCServer, err := manager_rpc.New(es)
+			managerRPCServer, err := manager_rpc.New(pg, es)
 			if err != nil {
 				logger.Fatalw("Could not create manager rpcserver",
 					"error", err,

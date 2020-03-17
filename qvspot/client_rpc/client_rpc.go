@@ -10,24 +10,24 @@ import (
 )
 
 type clientRPCServer struct {
-	logger  *zap.SugaredLogger
-	qvStore qvspot.QVStore
+	logger   *zap.SugaredLogger
+	qvSearch qvspot.QVSearch
 
 	defaultLimit int32
 }
 
 // New returns a new rpc server
-func New(qvStore qvspot.QVStore) (qvspot.ClientRPCServer, error) {
+func New(qvSearch qvspot.QVSearch) (qvspot.ClientRPCServer, error) {
 
-	return newServer(qvStore)
+	return newServer(qvSearch)
 
 }
 
-func newServer(qvStore qvspot.QVStore) (*clientRPCServer, error) {
+func newServer(qvSearch qvspot.QVSearch) (*clientRPCServer, error) {
 
 	return &clientRPCServer{
-		logger:  zap.S().With("package", "qvspot.client_rpc"),
-		qvStore: qvStore,
+		logger:   zap.S().With("package", "qvspot.client_rpc"),
+		qvSearch: qvSearch,
 
 		defaultLimit: config.GetInt32("api.default_limit"),
 	}, nil

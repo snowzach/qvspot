@@ -10,10 +10,10 @@ import (
 	"github.com/snowzach/qvspot/qvspot"
 )
 
-// VendorInsert creates a vendor
-func (s *managerRPCServer) VendorInsert(ctx context.Context, vendor *qvspot.Vendor) (*qvspot.Vendor, error) {
+// VendorSave creates a vendor
+func (s *managerRPCServer) VendorSave(ctx context.Context, vendor *qvspot.Vendor) (*qvspot.Vendor, error) {
 
-	err := s.qvStore.VendorInsert(ctx, vendor)
+	err := s.qvStore.VendorSave(ctx, vendor)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

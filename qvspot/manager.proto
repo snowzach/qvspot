@@ -11,7 +11,7 @@ option go_package = "github.com/snowzach/qvspot/qvspot";
 service ManagerRPC {
 
     // Create/Replace a vendor
-    rpc VendorInsert(qvspot.Vendor) returns (qvspot.Vendor) {
+    rpc VendorSave(qvspot.Vendor) returns (qvspot.Vendor) {
         option (google.api.http) = {
             post: "/vendor"
             body: "*"
@@ -33,7 +33,7 @@ service ManagerRPC {
     }
 
     // Create/Replace a product
-    rpc ProductInsert(qvspot.Product) returns (qvspot.Product) {
+    rpc ProductSave(qvspot.Product) returns (qvspot.Product) {
         option (google.api.http) = {
             post: "/product"
             body: "*"
@@ -55,7 +55,7 @@ service ManagerRPC {
     }
     
     // Create/Replace a location
-    rpc LocationInsert(qvspot.Location) returns (qvspot.Location) {
+    rpc LocationSave(qvspot.Location) returns (qvspot.Location) {
         option (google.api.http) = {
             post: "/location"
             body: "*"
@@ -77,7 +77,7 @@ service ManagerRPC {
     }
 
     // Create/Replace an item
-    rpc ItemInsert(qvspot.Item) returns (qvspot.Item) {
+    rpc ItemSave(qvspot.Item) returns (qvspot.Item) {
         option (google.api.http) = {
             post: "/item"
             body: "*"

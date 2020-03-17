@@ -21,13 +21,13 @@ message Vendor {
     // name
     string name = 4;
     // description
-    string desc = 5;
+    string description = 5;
 }
 
 // Product
 message Product {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        example: { value: '{"id": "test123", "created": "2020-01-01T12:10:30Z", "updated": "2020-01-01T12:10:30Z", "name": "test123", "desc": "test123 description", "attr": { "mystring1": "meta1", "mystring2": [ "meta2", "meta3" ] }, "attr_num": { "mynum1": 123.456 }, "attr_list": { "mylist1": ["a","b","c"] } }' }
+        example: { value: '{"id": "test123", "created": "2020-01-01T12:10:30Z", "updated": "2020-01-01T12:10:30Z", "name": "test123", "description": "test123 description", "attr": { "mystring1": "meta1", "mystring2": [ "meta2", "meta3" ] }, "attr_num": { "mynum1": 123.456 }, "attr_list": { "mylist1": ["a","b","c"] } }' }
     };
 
     // id field
@@ -37,18 +37,18 @@ message Product {
     // updated
     google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
     // owning vendor_id
-    string vendor_id = 4;
+    string vendor_id = 4 [(gogoproto.moretags) = "db:\"vendor_id\""];
     // name
     string name = 5;
     // description
-    string desc = 6;
+    string description = 6;
     // picture url
-    string pic_url = 7;
+    string pic_url = 7 [(gogoproto.moretags) = "db:\"pic_url\""];
     
     // string metadata
-    map<string, StringList> attr = 14 [(gogoproto.jsontag) = "attr,omitempty"]; // Remove omitempty
+    map<string, StringList> attr = 14 [(gogoproto.casttype) = "Attr",(gogoproto.jsontag) = "attr,omitempty"];
     // numeric metadata
-    map<string, double> attr_num = 15 [(gogoproto.jsontag) = "attr_num,omitempty"]; // Remove omitempty
+    map<string, double> attr_num = 15 [(gogoproto.casttype) = "AttrNum",(gogoproto.jsontag) = "attr_num,omitempty",(gogoproto.moretags) = "db:\"attr_num\""];
 
 }
 
@@ -61,11 +61,11 @@ message Location {
     // updated
     google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
     // owning vendor_id
-    string vendor_id = 4;
+    string vendor_id = 4 [(gogoproto.moretags) = "db:\"vendor_id\""];
     // location name
     string name = 5;
     // description
-    string desc = 6;
+    string description = 6;
     // location
     Position position = 7;
 
@@ -81,22 +81,22 @@ message Item {
     google.protobuf.Timestamp updated = 3 [(gogoproto.stdtime) = true];
 
     // vendor id
-    string vendor_id = 4;
+    string vendor_id = 4 [(gogoproto.moretags) = "db:\"vendor_id\""];
     // product id
-    string product_id = 5;
+    string product_id = 5 [(gogoproto.moretags) = "db:\"product_id\""];
     // location id
-    string location_id = 6;
+    string location_id = 6 [(gogoproto.moretags) = "db:\"location_id\""];
 
     // stock
-    sint64 stock = 7;
+    double stock = 7;
     // price
     double price = 8;
    
     // unit - there is only one - like an appointment
     bool unit = 9;
     // start/end for atomic
-    google.protobuf.Timestamp start_time = 10 [(gogoproto.stdtime) = true];
-    google.protobuf.Timestamp end_time = 11 [(gogoproto.stdtime) = true];
+    google.protobuf.Timestamp start_time = 10 [(gogoproto.stdtime) = true,(gogoproto.moretags) = "db:\"start_time\""];
+    google.protobuf.Timestamp end_time = 11 [(gogoproto.stdtime) = true,(gogoproto.moretags) = "db:\"end_time\""];
 
     // vendor - for denormalization
     Vendor vendor = 13;
