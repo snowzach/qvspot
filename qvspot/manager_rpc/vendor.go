@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"github.com/snowzach/qvspot/qvspot"
+	"github.com/snowzach/qvspot/store"
 )
 
 // VendorSave creates a vendor
@@ -15,7 +16,7 @@ func (s *managerRPCServer) VendorSave(ctx context.Context, vendor *qvspot.Vendor
 
 	err := s.qvStore.VendorSave(ctx, vendor)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+		return nil, status.Errorf(codes.Internal, "could not save product: %v", err)
 	}
 
 	return vendor, nil
@@ -26,8 +27,10 @@ func (s *managerRPCServer) VendorSave(ctx context.Context, vendor *qvspot.Vendor
 func (s *managerRPCServer) VendorGetById(ctx context.Context, request *qvspot.Request) (*qvspot.Vendor, error) {
 
 	vendor, err := s.qvStore.VendorGetById(ctx, request.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+	if err == store.ErrNotFound {
+		return nil, status.Errorf(codes.NotFound, "not found")
+	} else if err != nil {
+		return nil, status.Errorf(codes.Internal, "could not get vendor: %v", err)
 	}
 
 	return vendor, nil
@@ -38,8 +41,10 @@ func (s *managerRPCServer) VendorGetById(ctx context.Context, request *qvspot.Re
 func (s *managerRPCServer) VendorDeleteById(ctx context.Context, request *qvspot.Request) (*emptypb.Empty, error) {
 
 	err := s.qvStore.VendorDeleteById(ctx, request.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+	if err == store.ErrNotFound {
+		return nil, status.Errorf(codes.NotFound, "not found")
+	} else if err != nil {
+		return nil, status.Errorf(codes.Internal, "could not delete vendor: %v", err)
 	}
 
 	return &emptypb.Empty{}, nil

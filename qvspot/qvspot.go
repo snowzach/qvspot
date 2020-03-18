@@ -27,5 +27,5 @@ type QVSearch interface {
 	ItemGetById(ctx context.Context, itemId string) (*Item, error)
 	ItemDeleteById(ctx context.Context, itemId string) error
 
-	ProductSearch(ctx context.Context, search *ProductSearchRequest) (*ProductSearchResponse, error)
+	Search(ctx context.Context, search *SearchRequest) (*SearchResponse, error)
 }

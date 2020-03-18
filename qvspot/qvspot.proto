@@ -104,6 +104,12 @@ message Item {
     Location location = 14;
     // product - for denormalization
     Product product = 15;    
+
+    // string metadata
+    map<string, StringList> attr = 98 [(gogoproto.casttype) = "Attr",(gogoproto.jsontag) = "attr,omitempty"];
+    // numeric metadata
+    map<string, double> attr_num = 99 [(gogoproto.casttype) = "AttrNum",(gogoproto.jsontag) = "attr_num,omitempty",(gogoproto.moretags) = "db:\"attr_num\""];
+
 }
 
 // position
@@ -111,7 +117,7 @@ message Position {
     // location latitude
     double lat = 4;
     // location longitude
-    double long = 5;
+    double lon = 5;
 }
 
 // string list

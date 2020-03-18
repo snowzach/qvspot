@@ -39,5 +39,7 @@ CREATE TABLE IF NOT EXISTS item (
   price double precision DEFAULT 0.0,
   unit boolean DEFAULT 'false',
   start_time timestamp with time zone,
-  end_time timestamp with time zone
+  end_time timestamp with time zone,
+  attr jsonb DEFAULT '{}'::jsonb,
+  attr_num jsonb DEFAULT '{}'::jsonb
 );

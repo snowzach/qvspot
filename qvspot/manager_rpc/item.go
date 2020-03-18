@@ -14,17 +14,41 @@ import (
 // ItemInsert creates a item
 func (s *managerRPCServer) ItemSave(ctx context.Context, item *qvspot.Item) (*qvspot.Item, error) {
 
+	// Validate Vendor
+	if _, err := s.qvStore.VendorGetById(ctx, item.VendorId); err != nil {
+		if err == store.ErrNotFound {
+			return nil, status.Errorf(codes.InvalidArgument, "vendor_id not found")
+		}
+		return nil, status.Errorf(codes.Internal, "could not fetch vendor", err)
+	}
+
+	// Validate Product
+	if _, err := s.qvStore.ProductGetById(ctx, item.ProductId); err != nil {
+		if err == store.ErrNotFound {
+			return nil, status.Errorf(codes.InvalidArgument, "product_id not found")
+		}
+		return nil, status.Errorf(codes.Internal, "could not fetch product", err)
+	}
+
+	// Validate location
+	if _, err := s.qvStore.LocationGetById(ctx, item.LocationId); err != nil {
+		if err == store.ErrNotFound {
+			return nil, status.Errorf(codes.InvalidArgument, "location_id not found")
+		}
+		return nil, status.Errorf(codes.Internal, "could not fetch location", err)
+	}
+
 	err := s.qvStore.ItemSave(ctx, item)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+		return nil, status.Errorf(codes.Internal, "could not save item: %v", err)
 	}
 
 	if err = s.PopulateItem(ctx, item); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+		return nil, status.Errorf(codes.Internal, "could not populate item: %v", err)
 	}
 
 	if err = s.qvSearch.ItemSave(ctx, item); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+		return nil, status.Errorf(codes.Internal, "could not search.save item: %v", err)
 	}
 
 	return item, nil
@@ -35,12 +59,14 @@ func (s *managerRPCServer) ItemSave(ctx context.Context, item *qvspot.Item) (*qv
 func (s *managerRPCServer) ItemGetById(ctx context.Context, request *qvspot.Request) (*qvspot.Item, error) {
 
 	item, err := s.qvStore.ItemGetById(ctx, request.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+	if err == store.ErrNotFound {
+		return nil, status.Errorf(codes.NotFound, "not found")
+	} else if err != nil {
+		return nil, status.Errorf(codes.Internal, "could not get item: %v", err)
 	}
 
 	if err = s.PopulateItem(ctx, item); err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+		return nil, status.Errorf(codes.Internal, "could not populate item: %v", err)
 	}
 
 	return item, nil
@@ -51,13 +77,15 @@ func (s *managerRPCServer) ItemGetById(ctx context.Context, request *qvspot.Requ
 func (s *managerRPCServer) ItemDeleteById(ctx context.Context, request *qvspot.Request) (*emptypb.Empty, error) {
 
 	err := s.qvStore.ItemDeleteById(ctx, request.Id)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+	if err == store.ErrNotFound {
+		return nil, status.Errorf(codes.NotFound, "not found")
+	} else if err != nil {
+		return nil, status.Errorf(codes.Internal, "could not delete item: %v", err)
 	}
 
 	err = s.qvSearch.ItemDeleteById(ctx, request.Id)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
+		return nil, status.Errorf(codes.Internal, "could not delete.save item: %v", err)
 	}
 
 	return &emptypb.Empty{}, nil

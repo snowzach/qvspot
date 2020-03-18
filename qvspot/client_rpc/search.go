@@ -9,14 +9,14 @@ import (
 	"github.com/snowzach/qvspot/qvspot"
 )
 
-// ProductInsert creates a product
-func (s *clientRPCServer) ProductSearch(ctx context.Context, search *qvspot.ProductSearchRequest) (*qvspot.ProductSearchResponse, error) {
+// Search searches for items or products
+func (s *clientRPCServer) Search(ctx context.Context, search *qvspot.SearchRequest) (*qvspot.SearchResponse, error) {
 
 	if search.Limit == 0 {
 		search.Limit = s.defaultLimit
 	}
 
-	response, err := s.qvSearch.ProductSearch(ctx, search)
+	response, err := s.qvSearch.Search(ctx, search)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "%v", err)
 	}

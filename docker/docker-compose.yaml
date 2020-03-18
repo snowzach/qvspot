@@ -8,6 +8,7 @@ services:
       - hostnet
     environment:
       ELASTICSEARCH_HOST: elasticsearch
+      STORAGE_HOST: postgres
     ports:
       - 8990:8080
 

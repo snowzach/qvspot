@@ -13,9 +13,6 @@
                 "attr": {
                     "path_match": "attr.*",
                     "mapping": {
-                        "norms": false,
-                        "doc_values": true,
-                        "fielddata": false,
                         "type": "keyword"
                     }
                 }
@@ -24,21 +21,23 @@
                 "attr_num": {
                     "path_match": "attr_num.*",
                     "mapping": {
-                        "norms": false,
-                        "doc_values": true,
-                        "fielddata": false,
                         "type": "double"
                     }
                 }
             },
             {
-                "attr_list": {
-                    "path_match": "attr_list.*",
+                "product.attr": {
+                    "path_match": "product.attr.*",
                     "mapping": {
-                        "norms": false,
-                        "doc_values": true,
-                        "fielddata": false,
                         "type": "keyword"
+                    }
+                }
+            },
+            {
+                "product.attr_num": {
+                    "path_match": "product.attr_num.*",
+                    "mapping": {
+                        "type": "double"
                     }
                 }
             },
@@ -46,8 +45,7 @@
                 "star_as_keyword": {
                     "match_mapping_type": "*",
                     "mapping": {
-                        "type": "keyword",
-                        "norms": false
+                        "type": "keyword"
                     }
                 }
             }

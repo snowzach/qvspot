@@ -10,8 +10,8 @@ option go_package = "github.com/snowzach/qvspot/qvspot";
 
 service ClientRPC {
 
-    // Create/Replace a vendor
-    rpc ProductSearch(ProductSearchRequest) returns (ProductSearchResponse) {
+    // Search for products
+    rpc Search(SearchRequest) returns (SearchResponse) {
         option (google.api.http) = {
             post: "/search"
             body: "*"
@@ -20,39 +20,53 @@ service ClientRPC {
             }
         };
     }
-
+    
 }
 
-message ProductSearchRequest {
-
-    string search = 1;
-
+message SearchProduct {
+    // product id
+    string id = 1;
     // string metadata
     map<string, StringList> attr = 2 [(gogoproto.jsontag) = "attr"]; // Remove omitempty
     // numeric metadata
     map<string, Range> attr_num = 3 [(gogoproto.jsontag) = "attr_num"]; // Remove omitempty
+}
 
-    // location
-    qvspot.Position position = 4;
-    double radius = 5;
+message SearchRequest {
 
-    // owning vendor_id
-    string vendor_id = 13;
+    // General search term
+    string search = 1;
+
+    // Show results aggregated by product
+    bool by_product = 2;
+
+    // Product specific search
+    SearchProduct product = 3;
+
+    // string metadata
+    map<string, StringList> attr = 4 [(gogoproto.jsontag) = "attr"]; // Remove omitempty
+    // numeric metadata
+    map<string, Range> attr_num = 5 [(gogoproto.jsontag) = "attr_num"]; // Remove omitempty
+ 
+    // location filter
+    qvspot.Position position = 6;
+    string distance = 7;
 
     int32 offset = 14;
     int32 limit = 15;
     
 }
 
-message ProductResult {
-    // The prducts
-    qvspot.Product product = 1;
-    // The count of product
-    int64 matches = 2;
+message SearchResponse {
+    repeated SearchResult results = 1; 
 }
 
-message ProductSearchResponse {
-    repeated ProductResult results = 1; 
+message SearchResult {
+    qvspot.Product product = 1;
+    qvspot.Item item = 2;
+
+    // The count of items
+    int64 item_count = 3;
 }
 
 message Range {
