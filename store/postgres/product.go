@@ -17,8 +17,8 @@ func (c *Client) ProductSave(ctx context.Context, product *qvspot.Product) error
 	}
 
 	_, err := c.db.ExecContext(ctx, `
-		INSERT INTO product (id, created, updated, vendor_id, name, description, pic_url, attr, attr_num)
-		VALUES($1, NOW(), NOW(), $2, $3, $4, $5, $6, $7)
+		INSERT INTO product (id, created, updated, vendor_id, name, description, pic_url, attr, attr_num, extra)
+		VALUES($1, NOW(), NOW(), $2, $3, $4, $5, $6, $7, $8)
 		ON CONFLICT (id) DO UPDATE
 		SET 
 		updated = NOW(),
@@ -27,8 +27,9 @@ func (c *Client) ProductSave(ctx context.Context, product *qvspot.Product) error
 		description = $4,
 		pic_url = $5,
 		attr = $6,
-		attr_num = $7
-	`, product.Id, product.VendorId, product.Name, product.Description, product.PicUrl, product.Attr, product.AttrNum)
+		attr_num = $7,
+		extra = $8
+	`, product.Id, product.VendorId, product.Name, product.Description, product.PicUrl, product.Attr, product.AttrNum, product.Extra)
 	if err != nil {
 		return err
 	}

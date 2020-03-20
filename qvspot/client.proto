@@ -10,7 +10,7 @@ option go_package = "github.com/snowzach/qvspot/qvspot";
 
 service ClientRPC {
 
-    // Search for products
+    // Search for for Products or Items
     rpc Search(SearchRequest) returns (SearchResponse) {
         option (google.api.http) = {
             post: "/search"
@@ -23,6 +23,7 @@ service ClientRPC {
     
 }
 
+// Product Search Filter
 message SearchProduct {
     // product id
     string id = 1;
@@ -32,6 +33,7 @@ message SearchProduct {
     map<string, Range> attr_num = 3 [(gogoproto.jsontag) = "attr_num"]; // Remove omitempty
 }
 
+// Search Request
 message SearchRequest {
 
     // General search term
@@ -57,10 +59,12 @@ message SearchRequest {
     
 }
 
+// Search Response
 message SearchResponse {
     repeated SearchResult results = 1; 
 }
 
+// Search Result
 message SearchResult {
     qvspot.Product product = 1;
     qvspot.Item item = 2;
@@ -69,6 +73,7 @@ message SearchResult {
     int64 item_count = 3;
 }
 
+// Number range
 message Range {
     double min = 1;
     double max = 2;

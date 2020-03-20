@@ -6,8 +6,25 @@ import (
 	"fmt"
 )
 
+type Extra json.RawMessage
 type Attr map[string]*StringList
 type AttrNum map[string]float64
+
+// MarshalJSON for Raw fields is represented as base64
+func (e Extra) MarshalJSON() ([]byte, error) {
+
+	return []byte(e), nil
+
+}
+
+// UnmarshalJSON for Raw fields is parsed as base64
+func (e *Extra) UnmarshalJSON(in []byte) error {
+
+	*e = make([]byte, len(in))
+	copy(*e, in)
+	return nil
+
+}
 
 // MarshalJSON for Raw fields is represented as base64
 func (sl *StringList) MarshalJSON() ([]byte, error) {
@@ -89,4 +106,23 @@ func (p *Position) Scan(src interface{}) error {
 // Value implements the driver.Valuer interface
 func (p *Position) Value() (driver.Value, error) {
 	return json.Marshal(p)
+}
+
+// Scan implements the sql.Scanner interface
+func (e *Extra) Scan(src interface{}) error {
+	b, ok := src.([]byte)
+	if !ok {
+		return fmt.Errorf("could not parse field type %T", src)
+	}
+	*e = make([]byte, len(b))
+	copy(*e, b)
+	return nil
+}
+
+// Value implements the driver.Valuer interface
+func (e Extra) Value() (driver.Value, error) {
+	if len([]byte(e)) == 0 {
+		return "{}", nil
+	}
+	return []byte(e), nil
 }

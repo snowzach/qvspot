@@ -17,8 +17,8 @@ func (c *Client) ItemSave(ctx context.Context, item *qvspot.Item) error {
 	}
 
 	_, err := c.db.ExecContext(ctx, `
-		INSERT INTO item (id, created, updated, vendor_id, product_id, location_id, stock, price, unit, start_time, end_time, attr, attr_num)
-		VALUES($1, NOW(), NOW(), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+		INSERT INTO item (id, created, updated, vendor_id, product_id, location_id, stock, price, unit, start_time, end_time, attr, attr_num, extra)
+		VALUES($1, NOW(), NOW(), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 		ON CONFLICT (id) DO UPDATE
 		SET 
 		updated = NOW(),
@@ -31,8 +31,9 @@ func (c *Client) ItemSave(ctx context.Context, item *qvspot.Item) error {
 		start_time = $8,
 		end_time = $9,
 		attr = $10,
-		attr_num = $11
-	`, item.Id, item.VendorId, item.ProductId, item.LocationId, item.Stock, item.Price, item.Unit, item.StartTime, item.EndTime, item.Attr, item.AttrNum)
+		attr_num = $11,
+		extra = $12
+	`, item.Id, item.VendorId, item.ProductId, item.LocationId, item.Stock, item.Price, item.Unit, item.StartTime, item.EndTime, item.Attr, item.AttrNum, item.Extra)
 	if err != nil {
 		return err
 	}

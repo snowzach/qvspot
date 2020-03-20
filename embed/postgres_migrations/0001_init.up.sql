@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS product (
   description TEXT DEFAULT '',
   pic_url TEXT DEFAULT '',
   attr jsonb DEFAULT '{}'::jsonb,
-  attr_num jsonb DEFAULT '{}'::jsonb
+  attr_num jsonb DEFAULT '{}'::jsonb,
+  extra jsonb DEFAULT '{}'::jsonb
 );
 
 CREATE TABLE IF NOT EXISTS location (
@@ -41,5 +42,6 @@ CREATE TABLE IF NOT EXISTS item (
   start_time timestamp with time zone,
   end_time timestamp with time zone,
   attr jsonb DEFAULT '{}'::jsonb,
-  attr_num jsonb DEFAULT '{}'::jsonb
+  attr_num jsonb DEFAULT '{}'::jsonb,
+  extra jsonb DEFAULT '{}'::jsonb
 );

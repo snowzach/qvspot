@@ -23,6 +23,8 @@ func (s *Server) SetupRoutes() {
 	// Serve api-docs and swagger-ui
 	fs := http.FileServer(&assetfs.AssetFS{Asset: embed.Asset, AssetDir: embed.AssetDir, AssetInfo: embed.AssetInfo, Prefix: "public"})
 	s.router.Get("/api-docs/*", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Vary", "Accept-Encoding")
+		w.Header().Set("Cache-Control", "public, max-age=7776000")
 		fs.ServeHTTP(w, r)
 	}))
 	s.router.Get("/swagger-ui/*", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

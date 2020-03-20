@@ -7,9 +7,10 @@ import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 option go_package = "github.com/snowzach/qvspot/qvspot";
 
+// Vendor
 message Vendor {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        example: { value: '{"id": "vendor123", "name": "vendor123"}' }
+        example: { value: '{"id": "vendor123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "name": "vendor123", "description": "vendor123"}' }
     };
 
     // id
@@ -27,7 +28,7 @@ message Vendor {
 // Product
 message Product {
     option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
-        example: { value: '{"id": "test123", "created": "2020-01-01T12:10:30Z", "updated": "2020-01-01T12:10:30Z", "name": "test123", "description": "test123 description", "attr": { "mystring1": "meta1", "mystring2": [ "meta2", "meta3" ] }, "attr_num": { "mynum1": 123.456 }, "attr_list": { "mylist1": ["a","b","c"] } }' }
+        example: { value: '{"id": "test123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "vendor_id": "vendor123", "name": "test123", "description": "test123 description", "pic_url":"https://google.com/image.gif", "attr": { "mystring1": "meta1", "mystring2": [ "meta2", "meta3" ] }, "attr_num": { "mynum1": 123.456 }, "extra": { "extra1": ["a","b","c"] } }' }
     };
 
     // id field
@@ -46,14 +47,20 @@ message Product {
     string pic_url = 7 [(gogoproto.moretags) = "db:\"pic_url\""];
     
     // string metadata
-    map<string, StringList> attr = 14 [(gogoproto.casttype) = "Attr",(gogoproto.jsontag) = "attr,omitempty"];
+    map<string, StringList> attr = 13 [(gogoproto.casttype) = "Attr",(gogoproto.jsontag) = "attr,omitempty"];
     // numeric metadata
-    map<string, double> attr_num = 15 [(gogoproto.casttype) = "AttrNum",(gogoproto.jsontag) = "attr_num,omitempty",(gogoproto.moretags) = "db:\"attr_num\""];
+    map<string, double> attr_num = 14 [(gogoproto.casttype) = "AttrNum",(gogoproto.jsontag) = "attr_num,omitempty",(gogoproto.moretags) = "db:\"attr_num\""];
+    // extra metadata
+    bytes extra = 15 [(gogoproto.casttype) = "Extra",(gogoproto.jsontag) = "extra,omitempty",(gogoproto.moretags) = "db:\"extra\""];
 
 }
 
-// Vendor Location
+// Location
 message Location {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{"id": "test123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "vendor_id": "vendor123", "name": "location123", "description": "location123 description", "position":{ "lat": -40.0, "lon": -40.0 } }' }
+    };
+
     // id field
     string id = 1;
     // created
@@ -73,6 +80,9 @@ message Location {
 
 // Item
 message Item {
+    option (grpc.gateway.protoc_gen_swagger.options.openapiv2_schema) = {
+        example: { value: '{"id": "test123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "vendor_id": "vendor123", "location_id": "location123", "product_id": "product123", "stock": 10, "price": 20.0, "unit":false, "vendor": {"id": "vendor123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "name": "vendor123", "description": "vendor123"}, "product": {"id": "test123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "vendor_id": "vendor123", "name": "test123", "description": "test123 description", "pic_url":"https://google.com/image.gif", "attr": { "mystring1": "meta1", "mystring2": [ "meta2", "meta3" ] }, "attr_num": { "mynum1": 123.456 }, "extra": { "extra1": ["a","b","c"] } }, "location": {"id": "test123", "created": "2020-01-01T12:10:30.00001Z", "updated": "2020-01-01T12:10:30.00001Z", "vendor_id": "vendor123", "name": "location123", "description": "location123 description", "position":{ "lat": -40.0, "lon": -40.0 } }}' }
+    };
     // Tuple of vendor_id+product_id+location_id
     string id = 1;
     // created
@@ -106,13 +116,14 @@ message Item {
     Product product = 15;    
 
     // string metadata
-    map<string, StringList> attr = 98 [(gogoproto.casttype) = "Attr",(gogoproto.jsontag) = "attr,omitempty"];
+    map<string, StringList> attr = 97 [(gogoproto.casttype) = "Attr",(gogoproto.jsontag) = "attr,omitempty"];
     // numeric metadata
-    map<string, double> attr_num = 99 [(gogoproto.casttype) = "AttrNum",(gogoproto.jsontag) = "attr_num,omitempty",(gogoproto.moretags) = "db:\"attr_num\""];
-
+    map<string, double> attr_num = 98 [(gogoproto.casttype) = "AttrNum",(gogoproto.jsontag) = "attr_num,omitempty",(gogoproto.moretags) = "db:\"attr_num\""];
+    // extra metadata
+    bytes extra = 99 [(gogoproto.casttype) = "Extra",(gogoproto.jsontag) = "extra,omitempty",(gogoproto.moretags) = "db:\"extra\""];
 }
 
-// position
+// Position - Coordinates
 message Position {
     // location latitude
     double lat = 4;
@@ -120,7 +131,7 @@ message Position {
     double lon = 5;
 }
 
-// string list
+// StringList
 message StringList {
     repeated string list = 1;
 }

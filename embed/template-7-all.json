@@ -26,6 +26,15 @@
                 }
             },
             {
+                "extra": {
+                    "path_match": "extra.*",
+                    "mapping": {
+                        "type": "keyword",
+                        "index": false
+                    }
+                }
+            },
+            {
                 "product.attr": {
                     "path_match": "product.attr.*",
                     "mapping": {
@@ -38,6 +47,15 @@
                     "path_match": "product.attr_num.*",
                     "mapping": {
                         "type": "double"
+                    }
+                }
+            },
+            {
+                "product.extra": {
+                    "path_match": "product.extra.*",
+                    "mapping": {
+                        "type": "keyword",
+                        "index": false
                     }
                 }
             },
@@ -137,6 +155,9 @@
                     },
                     "attr_num": {
                         "type": "object"
+                    },
+                    "extra": {
+                        "type": "object"
                     }
                 }
             },
@@ -180,6 +201,9 @@
                 "type": "object"
             },
             "attr_num": {
+                "type": "object"
+            },
+            "extra": {
                 "type": "object"
             },
             "position": {
