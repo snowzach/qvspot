@@ -21,7 +21,8 @@ func (e *esearch) Search(ctx context.Context, search *qvspot.SearchRequest) (*qv
 
 	// Field search
 	if search.Search != "" {
-		query.Must(elastic.NewMultiMatchQuery(search.Search, "id", "product.id", "product.name", "product.desc"))
+		// query.Must(elastic.NewMultiMatchQuery(search.Search, "id", "product.id", "product.name", "product.desc"))
+		query.Must(elastic.NewQueryStringQuery(search.Search).Field("id").Field("product.id").Field("product.name").Field("product.desc"))
 	}
 
 	// Item Attributes

@@ -7,6 +7,7 @@ services:
     networks:
       - hostnet
     environment:
+      SERVER_PROFILER_ENABLED: "true"
       ELASTICSEARCH_HOST: elasticsearch
       STORAGE_HOST: postgres
     ports:
